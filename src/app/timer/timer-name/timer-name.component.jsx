@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import ReactDOM from 'react-dom';
 class TimerName extends Component {
     constructor() {
         super();
@@ -16,13 +16,15 @@ class TimerName extends Component {
 
     rename(evt) {
         this.props.rename(evt.target.value);
+        ReactDOM.findDOMNode(this.refs.inputName).focus();
     }
 
     render() {
         return (
             <div className="timer-name">
 
-                <input className="timer-name-input" maxLength="10" minLength="3"
+                <input ref="inputName" className="timer-name-input" maxLength="10" minLength="3"
+                autoFocus={true}
                 disabled={this.state.disabled} 
                 value={this.props.name} 
                 onChange={this.rename} />
