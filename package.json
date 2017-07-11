@@ -22,7 +22,7 @@
             },
             "electronPackagerConfig": {},
             "electronWinstallerConfig": {
-                "name": "first_app"
+                "name": "time_recording"
             },
             "electronInstallerDebian": {},
             "electronInstallerRedhat": {},
@@ -32,7 +32,7 @@
             },
             "windowsStoreConfig": {
                 "packageName": "",
-                "name": "firstapp"
+                "name": "timerecording"
             }
         }
     },

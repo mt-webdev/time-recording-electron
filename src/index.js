@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-require ('electron-reload')(__dirname);
+require('electron-reload')(__dirname);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,7 +13,8 @@ const createWindow = () => {
     autoHideMenuBar: false,
     backgroundColor: '#f1f1f1',
     darkTheme: true,
-    title: 'My App',
+    title: 'Time Recording',
+    icon: `${__dirname}/assets/clock.ico`
   });
 
   // and load the index.html of the app.
