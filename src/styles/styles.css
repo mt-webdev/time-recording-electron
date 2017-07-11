@@ -1,0 +1,67 @@
+html {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+input:hover {
+    cursor: pointer;
+}
+
+inpurt:disabled:hover {
+    cursor: copy;
+}
+
+.timer-name {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+}
+
+    .timer-name .edit-pen {
+        display: inline-block;
+        font-size: 30px;
+    }
+
+        .timer-name .edit-pen:hover {
+            cursor: pointer;
+        }
+
+    .timer-name .timer-name-input {
+        border: none;
+        font-size: 30px;
+        width: 10px;
+        flex-grow: 1;
+        background-color: #fff;
+        box-shadow: 0 0 5px 1px rgba(50, 50, 200, .3);
+    }
+
+        .timer-name .timer-name-input:disabled {
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        .timer-name .timer-name-input:hover {
+            cursor: text;
+        }
+
+        .timer-name .timer-name-input:disabled:hover {
+            cursor: default;
+        }
+    
+button:after {
+    font-size: 16px;
+}
+
+button.run:after {
+    content: '\25B6';
+}
+
+button.stop:after {
+    content: '\2BC0';
+}
