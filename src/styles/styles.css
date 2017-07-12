@@ -35,41 +35,42 @@ inpurt:disabled:hover {
     justify-content: center;
     width: 200px;
 
-    /* border-bottom: 1px solid #888; */
-    background-color: rgb(238, 30, 60);
+     background: linear-gradient(to right, rgb(238, 30, 60), rgb(240, 90, 30)); 
     box-shadow: 0 1px 2px 1px rgba(33, 33, 33, .3);
 }
 
-    .timer-name .edit-pen {
+    .timer-name .notify {
+        width: 35px;
         display: inline-block;
         font-size: 30px;
-        color: #fff;
+        color: #f1f1f1;
         background-color: rgba(0,0,0, .3);
         padding: 2px;
+        text-align: center;
     }
 
-        .timer-name .edit-pen:hover {
-            cursor: pointer;
-        }
+    .timer-name .notify:hover {
+        cursor: pointer;
+    }
 
     .timer-name .timer-name-input {
         border: none;
         font-size: 30px;
         width: 10px;
         flex-grow: 1;
-        background-color: #fff;
-        box-shadow: 0 0 5px 1px rgba(50, 50, 200, .3);
-        color: #000;
         font-weight: bold;
     }
 
-        .timer-name .timer-name-input:disabled {
-            background-color: transparent;
-            box-shadow: none;
-        color: #fff;
+        .timer-name span.timer-name-input {
+            color: #fff;
         }
 
-        .timer-name .timer-name-input:hover {
+        .timer-name input.timer-name-input {
+            color: #000;
+        }
+
+        .timer-name input.timer-name-input:hover,
+        .timer-name span.timer-name-input:hover {
             cursor: text;
         }
 
@@ -77,7 +78,7 @@ inpurt:disabled:hover {
             cursor: default;
         }
 
-.timer {
+.timer-wrapper {
     font-size: 30px;
     font-family: 'Lucida Sans';
 }

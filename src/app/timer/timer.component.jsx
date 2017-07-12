@@ -13,7 +13,8 @@ export default class Timer extends Component {
         super();
         this.state = {
             run: false,
-            notified: false
+            notified: false,
+            notify: true
         };
 
         this.initDate = new Date(2017, 1, 1, 0, 0, 0, 0);
@@ -24,10 +25,24 @@ export default class Timer extends Component {
         ].join(' ');
 
         this.rename = this.rename.bind(this);
-        this.toggle = this.toggle.bind(this);
+        this.toggleTimer = this.toggleTimer.bind(this);
         this.start = this.start.bind(this);
         this.stop = this.stop.bind(this);
         this.reset = this.reset.bind(this);
+        this.toggleNotify = this.toggleNotify.bind(this);
+
+        window['t'] = this;
+    }
+
+    toggleNotify() {
+        this.setState(p => ({ notify: !p.notify }), () => {
+            if (this.state.notify) {
+                this.speak('Benachrichtigungen aktiviert');
+            }
+            else {
+                this.speak('Benachrichtigungen deaktiviert');
+            };
+        });
     }
 
     reset() {
@@ -37,7 +52,7 @@ export default class Timer extends Component {
         this.props.update(this.props.idx, 0);
     }
 
-    toggle() {
+    toggleTimer() {
         this.setState(p => {
             const shouldRun = !p.run;
 
@@ -81,38 +96,51 @@ export default class Timer extends Component {
     }
 
     notify(date) {
+        if (!this.state.notify) {
+            return;
+        }
+
         const options = {
             body: 'Go Home!'
         };
 
-        const displayNotification = () => new Notification('Time-Recording', options);
+        const displayNotification = (over) => new Notification('Time-Recording', { body: !over ? 'Go Home!' : `Go Home!\n+ ${over}` });
         const setNotifiedState = () => this.setState({ notified: true });
-
         if (!this.state.notified && date.getHours() === 8) {
             displayNotification();
             setNotifiedState();
         }
-        else if (date.getHours() >= 8 && date.getMinutes() > 9 && date.getSeconds() === 0 && date.getMinutes() % 5 === 0) {
-            // renotify every 5 minutes
-            displayNotification();
+        // renotify every 5 minutes 
+        else if (date.getHours() >= 8 && date.getMinutes() > 4 && date.getSeconds() === 0 && date.getMinutes() % 5 === 0) {
+            const overTime = ''.concat(
+                `0${date.getHours() - 8}`,
+                ' : ',
+                `${date.getMinutes() < 10 ?
+                    "0" + date.getMinutes() :
+                    date.getMinutes()}`
+            );
+
+
+
+            displayNotification(overTime);
         }
     }
 
     speak(text) {
         if (!speechSynthesis.speaking) {
             const utter = new SpeechSynthesisUtterance(text);
-            utter.rate = 2;
+            utter.rate = 1.5;
             utter.volume = 2;
             speechSynthesis.speak(utter);
         }
     }
 
     render() {
-        console.log('this', this);
-            this.updateDisplayName();
+        this.updateDisplayName();
         return (
             <div className={this.timerWrapperClasses}>
                 <TimerName name={this.props.timer.name}
+                    toggleNotify={this.toggleNotify}
                     rename={this.rename} />
 
                 <div className="timer">{this.displayTime}</div>
@@ -120,7 +148,7 @@ export default class Timer extends Component {
                 <ControlPanel
                     reset={this.reset}
                     runState={this.state.run}
-                    startStop={this.toggle} />
+                    startStop={this.toggleTimer} />
             </div>
         );
     }

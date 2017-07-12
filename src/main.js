@@ -11,7 +11,7 @@ class App extends React.Component {
     super();
     this.state = {
       timers: new Map([
-        [0, { name: 'init', t: 1 }],
+        [0, { name: 'init', t: 0 }],
       ]),
     };
 
@@ -53,11 +53,11 @@ class App extends React.Component {
       <div>
         <h1>Time-Recording</h1>
         <Timer
-update={this.updateTimer}
+          update={this.updateTimer}
           timer={this.state.timers.get(0)}
           idx={0}
           rename={this.renameTimer}
-                />
+        />
         {/* <TimerList timers={this.state.timers}
                 add={this.addTimer}
                 remove={this.removeTimer}/>*/}
