@@ -56,13 +56,18 @@ inpurt:disabled:hover {
 }
 
     .timer-name .notify {
-        width: 35px;
         display: inline-block;
-        font-size: 30px;
-        color: #f1f1f1;
-        background-color: rgba(0,0,0, .3);
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        
         padding: 2px;
+        
+        font-size: 25px;
+        color: #f1f1f1;
         text-align: center;
+
+        background-color: rgba(0,0,0, .3);
     }
 
     .timer-name .notify:hover {
@@ -101,12 +106,18 @@ inpurt:disabled:hover {
 
 .control-panel {
     align-self: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .control-panel > button {
     font-size: 16px;
     border: none;
     margin-right: 2px;
+    height: 25px;
+    width: 25px;
 }
 
 .control-panel > button:hover {
@@ -119,10 +130,10 @@ inpurt:disabled:hover {
     margin-right: 0;
 }
 
-button.run:after {
+/* button.run:after {
     content: '\25B6';
 }
 
 button.stop:after {
     content: '\2BC0';
-}
+} */

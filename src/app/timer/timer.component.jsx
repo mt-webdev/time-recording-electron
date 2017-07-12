@@ -30,8 +30,17 @@ export default class Timer extends Component {
         this.stop = this.stop.bind(this);
         this.reset = this.reset.bind(this);
         this.toggleNotify = this.toggleNotify.bind(this);
+        this.subLunchBreak = this.subLunchBreak.bind(this);
 
         window['t'] = this;
+    }
+
+    subLunchBreak() {
+        const avgLunchTime = (60 * 30);
+        if (this.props.t >= avgLunchTime) {
+            this.speak('Mittagspause abgezogen');
+            this.props.update(this.props.idx, this.props.t - avgLunchTime);
+        }
     }
 
     toggleNotify() {
@@ -100,10 +109,6 @@ export default class Timer extends Component {
             return;
         }
 
-        const options = {
-            body: 'Go Home!'
-        };
-
         const displayNotification = (over) => new Notification('Time-Recording', { body: !over ? 'Go Home!' : `Go Home!\n+ ${over}` });
         const setNotifiedState = () => this.setState({ notified: true });
         if (!this.state.notified && date.getHours() === 8) {
@@ -148,6 +153,7 @@ export default class Timer extends Component {
                 <ControlPanel
                     reset={this.reset}
                     runState={this.state.run}
+                    subLunchBreak={this.subLunchBreak}
                     startStop={this.toggleTimer} />
             </div>
         );
