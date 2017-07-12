@@ -39,6 +39,7 @@
     "dependencies": {
         "electron-compile": "^6.4.1",
         "electron-reload": "^1.2.1",
+        "font-awesome": "^4.7.0",
         "react": "^15.6.1",
         "react-dom": "^15.6.1"
     },
