@@ -50,8 +50,8 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div>
-        <h1>Time-Recording</h1>
+      <div className="app-container">
+        <h1 className="title">Time-Recording</h1>
         <Timer
           update={this.updateTimer}
           timer={this.state.timers.get(0)}
