@@ -53,6 +53,7 @@ class TimerName extends Component {
                         value={this.props.name}
                         onChange={this.rename} />}
                 <div onClick={this.toggleNotify} className={this.state.notify ? 'notify fa fa-bell-o' : 'notify fa fa-bell-slash-o'}></div>
+                <div onClick={this.toggleNotify} className={this.state.notify ? 'notify fa fa-bell-o' : 'notify fa fa-bell-slash-o'}></div>
             </div>
         );
     }

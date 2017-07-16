@@ -8,6 +8,17 @@ html {
     font-family: 'Lucida Sans';
 }
 
+body > #root + svg {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+    opacity: .5;
+}
+
 .app-container {
     display: flex;
     flex-direction: column;
@@ -15,6 +26,38 @@ html {
 
     height: 100%;
     width: 100%;
+    z-index: 10;
+}
+
+.home-container {
+    align-self: center;
+    margin-top: 200px;
+}
+
+.home-container .track-start {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.track-start button { 
+    border: none;
+    background-color: #de6b16;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+    font-variant: small-caps;
+}
+
+.track-start button:hover {
+    cursor: pointer;
+}
+
+.track-start button:active {
+    box-shadow: 5px 5px 5px rgba(0,0,0,.3) inset;
 }
 
 h1.title {
