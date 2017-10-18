@@ -14,7 +14,7 @@ const createWindow = () => {
     backgroundColor: '#f1f1f1',
     darkTheme: true,
     title: 'Time Recording',
-    icon: `${__dirname}/assets/clock.ico`
+    icon: `${__dirname}/assets/brand.ico`
   });
 
   // and load the index.html of the app.
