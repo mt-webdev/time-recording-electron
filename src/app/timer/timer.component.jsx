@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ControlPanel from './control-panel/control-panel.component';
 import TimerName from './timer-name/timer-name.component';
+import IdbDatabase, { dbMode } from '../storage/IdbDatabase.class';
 
 export default class Timer extends Component {
 
@@ -8,6 +9,7 @@ export default class Timer extends Component {
     interval;
     displayTime;
     initDate;
+    _dbStorage;
 
     constructor() {
         super();
@@ -32,6 +34,8 @@ export default class Timer extends Component {
         this.toggleNotify = this.toggleNotify.bind(this);
         this.subLunchBreak = this.subLunchBreak.bind(this);
 
+        this._dbStorage = new IdbDatabase({});
+
         window['t'] = this;
     }
 
@@ -50,7 +54,7 @@ export default class Timer extends Component {
             }
             else {
                 this.speak('Benachrichtigungen deaktiviert');
-            };
+            }
         });
     }
 
@@ -82,13 +86,31 @@ export default class Timer extends Component {
     }
 
     start() {
+        this._dbStorage.run('timers', dbMode.readwrite,
+            (db, storeName, mode) => {
+                const store = db.transaction(storeName, mode).objectStore(storeName);
+                store.put({
+                    start: new Date(),
+                    end: null,
+                    id: this.props.idx
+                });
+            });
+
         this.speak('timer gestartet');
+
+
         this.interval = setInterval(() => {
             this.props.update(this.props.idx, this.props.timer.t + 1);
         }, 1000);
+
     }
 
     stop() {
+        this._dbStorage.run('timers', dbMode.readwrite,
+            (db, storeName, mode) => {
+                // do stuff
+            });
+
         this.speak('timer pausiert');
         clearInterval(this.interval);
     }
