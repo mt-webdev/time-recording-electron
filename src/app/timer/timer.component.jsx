@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ControlPanel from './control-panel/control-panel.component';
 import TimerName from './timer-name/timer-name.component';
 import IdbDatabase, { dbMode } from '../storage/IdbDatabase.class';
+import { putStartTimeForTimer, putEndTimeForTimer, putTimer } from './timer-component.storage';
 
 export default class Timer extends Component {
 
@@ -86,18 +87,8 @@ export default class Timer extends Component {
     }
 
     start() {
-        this._dbStorage.run('timers', dbMode.readwrite,
-            (db, storeName, mode) => {
-                const store = db.transaction(storeName, mode).objectStore(storeName);
-                store.put({
-                    start: new Date(),
-                    end: null,
-                    id: this.props.idx
-                });
-            });
-
+        putStartTimeForTimer(this._dbStorage, 'timers', dbMode.readwrite, this.props.idx, this.props.timer);
         this.speak('timer gestartet');
-
 
         this.interval = setInterval(() => {
             this.props.update(this.props.idx, this.props.timer.t + 1);
@@ -106,21 +97,18 @@ export default class Timer extends Component {
     }
 
     stop() {
-        this._dbStorage.run('timers', dbMode.readwrite,
-            (db, storeName, mode) => {
-                // do stuff
-            });
-
+        putEndTimeForTimer(this._dbStorage, 'timers', dbMode.readwrite, this.props.idx);
         this.speak('timer pausiert');
+
         clearInterval(this.interval);
     }
-
 
     rename(newName) {
         this.props.rename(this.props.idx, newName);
     }
 
     updateDisplayName() {
+        putTimer(this._dbStorage, 'timers', dbMode.readwrite, this.props.idx, this.props.timer);
         const date = new Date(this.initDate.setHours(0, 0, this.props.timer.t, 0));
         this.displayTime = date.toLocaleTimeString();
         this.notify(date);
@@ -137,7 +125,7 @@ export default class Timer extends Component {
             displayNotification();
             setNotifiedState();
         }
-        // renotify every 5 minutes 
+        // renotify every 5 minutes
         else if (date.getHours() >= 8 && date.getMinutes() > 4 && date.getSeconds() === 0 && date.getMinutes() % 5 === 0) {
             const overTime = ''.concat(
                 `0${date.getHours() - 8}`,

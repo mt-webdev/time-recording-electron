@@ -21,10 +21,9 @@ export default class IdbStorage {
 
     run(store, mode, callback) {
         this.dbPromise$.then(db => {
-            if (!db)
-                return;
-
-            callback(db, storeName, mode);
+            if (!db) return;
+            const tx = callback(db, store, mode);
+            return tx.complete;
         });
     }
 }
