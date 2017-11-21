@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import ControlPanel from './control-panel/control-panel.component';
 import TimerName from './timer-name/timer-name.component';
-import IdbDatabase, { dbMode } from '../storage/IdbDatabase.class';
-import { putStartTimeForTimer, putEndTimeForTimer, putTimer } from './timer-component.storage';
+import IdbDatabase from '../storage/IdbDatabase.class';
 
 export default class Timer extends Component {
 
@@ -10,7 +9,7 @@ export default class Timer extends Component {
     interval;
     displayTime;
     initDate;
-    _dbStorage;
+    _idb;
 
     constructor() {
         super();
@@ -35,9 +34,7 @@ export default class Timer extends Component {
         this.toggleNotify = this.toggleNotify.bind(this);
         this.subLunchBreak = this.subLunchBreak.bind(this);
 
-        this._dbStorage = new IdbDatabase({});
-
-        window['t'] = this;
+        this._idb = new IdbDatabase({});
     }
 
     subLunchBreak() {
@@ -87,7 +84,7 @@ export default class Timer extends Component {
     }
 
     start() {
-        putStartTimeForTimer(this._dbStorage, 'timers', dbMode.readwrite, this.props.idx, this.props.timer);
+        this._idb.putStartTime(this.props.idx, this.props.timer);
         this.speak('timer gestartet');
 
         this.interval = setInterval(() => {
@@ -97,7 +94,7 @@ export default class Timer extends Component {
     }
 
     stop() {
-        putEndTimeForTimer(this._dbStorage, 'timers', dbMode.readwrite, this.props.idx);
+        this._idb.putEndTime(this.props.idx, this.props.timer);
         this.speak('timer pausiert');
 
         clearInterval(this.interval);
@@ -108,19 +105,18 @@ export default class Timer extends Component {
     }
 
     updateDisplayName() {
-        putTimer(this._dbStorage, 'timers', dbMode.readwrite, this.props.idx, this.props.timer);
         const date = new Date(this.initDate.setHours(0, 0, this.props.timer.t, 0));
         this.displayTime = date.toLocaleTimeString();
         this.notify(date);
     }
 
     notify(date) {
-        if (!this.state.notify) {
+        if (!this.state.notify)
             return;
-        }
 
         const displayNotification = (over) => new Notification('Time-Recording', { body: !over ? 'Go Home!' : `Go Home!\n+ ${over}` });
         const setNotifiedState = () => this.setState({ notified: true });
+
         if (!this.state.notified && date.getHours() === 8) {
             displayNotification();
             setNotifiedState();
