@@ -7,9 +7,7 @@ export default class TimerList extends React.Component {
     }
 
     list() {
-        debugger;
-        // return this.props.timers.map(timer => <li>{timer.name}<i>{timer.t}</i></li>)
-        return <li>Test</li>;
+        return this.props.timers.map(timer => <li key={this.props.timers.keyOf(timer)}>{timer.name}<i>{timer.t}</i></li>)
     }
 
     render() {

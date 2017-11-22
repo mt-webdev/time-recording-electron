@@ -12,9 +12,9 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      timers: new Map([
-        [0, { name: 'init', t: 0 }],
-        [0, { name: 'test', t: 0 }]
+      timers: List([
+        { name: 'init', t: 0 },
+        { name: 'test', t: 0 }
       ]),
     };
 
