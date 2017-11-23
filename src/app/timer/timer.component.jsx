@@ -1,3 +1,4 @@
+import TimeTicks from './time-ticks.component'
 import React, { Component } from 'react';
 import ControlPanel from './control-panel/control-panel.component';
 import TimerName from './timer-name/timer-name.component';
@@ -7,7 +8,6 @@ export default class Timer extends Component {
 
     timerWrapperClasses;
     interval;
-    displayTime;
     initDate;
     _idb;
 
@@ -39,9 +39,10 @@ export default class Timer extends Component {
 
     subLunchBreak() {
         const avgLunchTime = (60 * 30);
-        if (this.props.t >= avgLunchTime) {
+        if (this.props.ticks >= avgLunchTime) {
             this.speak('Mittagspause abgezogen');
-            this.props.update(this.props.idx, this.props.t - avgLunchTime);
+
+            update(this.props.idx, this.props.ticks - avgLunchTime);
         }
     }
 
@@ -83,14 +84,22 @@ export default class Timer extends Component {
         });
     }
 
+    shouldNotify() {
+        return this.state.notify;
+    }
+
     start() {
         this._idb.putStartTime(this.props.idx, this.props.timer);
         this.speak('timer gestartet');
 
         this.interval = setInterval(() => {
-            this.props.update(this.props.idx, this.props.timer.t + 1);
-        }, 1000);
+            this.props.update(this.props.idx, this.props.timer.ticks + 1);
 
+            if (this.shouldNotify()) {
+                const date = new Date(this.initDate.setHours(0, 0, this.props.timer.t, 0));
+                this.notify(date);
+            }
+        }, 1000);
     }
 
     stop() {
@@ -104,16 +113,7 @@ export default class Timer extends Component {
         this.props.rename(this.props.idx, newName);
     }
 
-    updateDisplayName() {
-        const date = new Date(this.initDate.setHours(0, 0, this.props.timer.t, 0));
-        this.displayTime = date.toLocaleTimeString();
-        this.notify(date);
-    }
-
     notify(date) {
-        if (!this.state.notify)
-            return;
-
         const displayNotification = (over) => new Notification('Time-Recording', { body: !over ? 'Go Home!' : `Go Home!\n+ ${over}` });
         const setNotifiedState = () => this.setState({ notified: true });
 
@@ -147,14 +147,15 @@ export default class Timer extends Component {
     }
 
     render() {
-        this.updateDisplayName();
         return (
             <div className={this.timerWrapperClasses}>
                 <TimerName name={this.props.timer.name}
                     toggleNotify={this.toggleNotify}
                     rename={this.rename} />
 
-                <div className="timer">{this.displayTime}</div>
+                <div className="timer">
+                    <TimeTicks ticks={this.props.timer.ticks} />
+                </div>
 
                 <ControlPanel
                     reset={this.reset}

@@ -2,7 +2,7 @@
 
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { Set, List } from 'immutable';
+import { Map, List } from 'immutable';
 
 // import TimerList from './app/timer-list/timer-list.component';
 import Timer from './app/timer/timer.component';
@@ -13,8 +13,8 @@ class App extends React.Component {
     super();
     this.state = {
       timers: List([
-        { name: 'init', t: 0 },
-        { name: 'test', t: 0 }
+        { id: 1, name: 'init', ticks: 0 },
+        { id: 2, name: 'test', ticks: 0 }
       ]),
     };
 
@@ -34,21 +34,17 @@ class App extends React.Component {
 
   renameTimer(key, newName) {
     this.setState((prev) => {
-      const time = prev.timers.get(key).t;
-      const updatedTimers = prev.timers;
-      updatedTimers.set(key, { name: newName, t: time });
-
-      return { timers: updatedTimers };
+      const timer = prev.timers.get(key);
+      timer.name = newName;
+      return { timers: prev.timers.set(key, timer) };
     });
   }
 
   updateTimer(key, time) {
     this.setState((prev) => {
-      const timerName = prev.timers.get(key).name;
-      const updatedTimers = prev.timers;
-      updatedTimers.set(key, { name: timerName, t: time });
-
-      return { timers: updatedTimers };
+      const timer = prev.timers.get(key);
+      timer.ticks = time;
+      return { timers: prev.timers.set(key, timer) };
     });
   }
   render() {
