@@ -1,18 +1,18 @@
+/* eslint-disable jsx-a11y/href-no-hash */
+
 'use-strict';
 
 import ReactDOM from 'react-dom';
 import React from 'react';
 
 // import TimerList from './app/timer-list/timer-list.component';
-import Timer from './app/timer/timer.component';
+import { Timer } from './app/timer/timer.component';
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      timers: new Map([
-        [0, { name: 'init', t: 0 }],
-      ]),
+      timers: new Map([[0, { name: 'init', t: 0 }]]),
     };
 
     this.addTimer = this.addTimer.bind(this);
@@ -25,9 +25,7 @@ class App extends React.Component {
     this.setState((prev) => ({}));
   }
 
-  removeTimer(key) {
-
-  }
+  removeTimer(key) { }
 
   renameTimer(key, newName) {
     this.setState((prev) => {
@@ -50,8 +48,8 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="app-container">
-        <h1 className="title">Time-Recording</h1>
+      <div className='app-container'>
+        <h1 className='title'>Time-Recording</h1>
         <Timer
           update={this.updateTimer}
           timer={this.state.timers.get(0)}
@@ -65,6 +63,5 @@ class App extends React.Component {
     );
   }
 }
-
 
 ReactDOM.render(<App />, document.getElementById('root'));

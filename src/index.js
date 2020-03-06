@@ -1,4 +1,8 @@
-import { app, BrowserWindow } from 'electron';
+/* eslint-disable jsx-a11y/href-no-hash */
+
+const { app, BrowserWindow } = require('electron');
+// import { app, BrowserWindow } from 'electron';
+
 require('electron-reload')(__dirname);
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -14,7 +18,7 @@ const createWindow = () => {
     backgroundColor: '#f1f1f1',
     darkTheme: true,
     title: 'Time Recording',
-    icon: `${__dirname}/assets/brand.ico`
+    icon: `${__dirname}/assets/brand.ico`,
   });
 
   // and load the index.html of the app.

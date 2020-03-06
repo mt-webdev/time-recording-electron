@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ControlPanel from './control-panel/control-panel.component';
 import TimerName from './timer-name/timer-name.component';
 
-export default class Timer extends Component {
+export class Timer extends Component {
 
     timerWrapperClasses;
     interval;
@@ -115,7 +115,7 @@ export default class Timer extends Component {
             displayNotification();
             setNotifiedState();
         }
-        // renotify every 5 minutes 
+        // renotify every 5 minutes
         else if (date.getHours() >= 8 && date.getMinutes() > 4 && date.getSeconds() === 0 && date.getMinutes() % 5 === 0) {
             const overTime = ''.concat(
                 `0${date.getHours() - 8}`,
